@@ -1,0 +1,329 @@
+import 'dart:async';
+import 'dart:io';
+import 'package:camera/camera.dart';
+import 'package:flutter/material.dart';
+//import 'package:cross_file/cross_file.dart';
+
+class ScanPage extends StatefulWidget {
+  const ScanPage({super.key});
+
+  @override
+  State<ScanPage> createState() => _ScanPageState();
+}
+
+class _ScanPageState extends State<ScanPage> {
+  CameraController? _controller;
+  XFile? _lastImage;
+
+  final list = [
+    {'элемент': 'элемент', 'значение': 'значение'},
+    {'элемент': 'элемент', 'значение': 'значение'},
+    {'элемент': 'элемент', 'значение': 'значение'},
+    {'элемент': 'элемент', 'значение': 'значение'},
+    {'элемент': 'элемент', 'значение': 'значение'},
+    {'элемент': 'элемент', 'значение': 'значение'},
+    {'элемент': 'элемент', 'значение': 'значение'},
+    {'элемент': 'элемент', 'значение': 'значение'},
+    {'элемент': 'элемент', 'значение': 'значение'},
+    {'элемент': 'элемент', 'значение': 'значение'},
+    {'элемент': 'элемент', 'значение': 'значение'},
+    {'элемент': 'элемент', 'значение': 'значение'},
+    {'элемент': 'элемент', 'значение': 'значение'},
+    {'элемент': 'элемент', 'значение': 'значение'},
+    {'элемент': 'элемент', 'значение': 'значение'},
+    {'элемент': 'элемент', 'значение': 'значение'},
+    {'элемент': 'элемент', 'значение': 'значение'},
+    {'элемент': 'элемент', 'значение': 'значение'},
+    {'элемент': 'элемент', 'значение': 'значение'},
+    {'элемент': 'элемент', 'значение': 'значение'},
+    {'элемент': 'элемент', 'значение': 'значение'},
+    {'элемент': 'элемент', 'значение': 'значение'},
+    {'элемент': 'элемент', 'значение': 'значение'},
+    {'элемент': 'элемент', 'значение': 'значение'},
+    {'элемент': 'элемент', 'значение': 'значение'},
+    {'элемент': 'элемент', 'значение': 'значение'},
+    {'элемент': 'элемент', 'значение': 'значение'},
+    {'элемент': 'элемент', 'значение': 'значение'},
+    {'элемент': 'элемент', 'значение': 'значение'},
+    {'элемент': 'элемент', 'значение': 'значение'},
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeCamera();
+  }
+
+  Future<void> _initializeCamera() async {
+    try {
+      final cameras = await availableCameras();
+      if (cameras.isNotEmpty) {
+        _controller = CameraController(
+          cameras.first,
+          ResolutionPreset.medium,
+          enableAudio: false,
+        );
+        await _controller!.initialize();
+      }
+      setState(() {});
+    } catch (e) {
+      Exception('Ошибка инициализации: $e');
+      //print('Ошибка инициализации: $e');
+    }
+  }
+
+  Future<void> _startCamera() async {
+    if (_controller != null && _controller!.value.isInitialized) {
+      final image = await _controller!.takePicture();
+      setState(() => _lastImage = image);
+    }
+  }
+
+  Future<void> _stopCamera() async {
+    await _controller?.dispose();
+    _controller = null;
+  }
+
+  @override
+  void dispose() {
+    _stopCamera();
+
+    super.dispose();
+  }
+
+  Future<void> _scanFood() async {
+    _startCamera();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _lastImage == null
+        ? Scaffold(
+            backgroundColor: Colors.white,
+            body: Center(
+              child: Column(children: [
+                Text(
+                  'Сканирование',
+                  style: TextStyle(color: Colors.black, fontSize: 48.0),
+                ),
+                Padding(
+                    padding: const EdgeInsets.all(50.0),
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * 0.59,
+                      //width: MediaQuery.of(context).size.width * 0.75,
+                      decoration: BoxDecoration(color: Colors.grey),
+                      child: Expanded(
+                          child: _controller != null &&
+                                  _controller!.value.isInitialized
+                              ? CameraPreview(_controller!)
+                              : Center(child: Text('Камера недоступна'))),
+                    )),
+                ElevatedButton(
+                  onPressed: _scanFood,
+                  style: ButtonStyle(
+                    backgroundColor: WidgetStateProperty.all(
+                        Color.fromARGB(255, 0, 106, 244)),
+                    shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+                    minimumSize: WidgetStateProperty.all(
+                        Size(259, 35)), // Минимальная ширина и высота
+                    maximumSize: WidgetStateProperty.all(
+                        Size(492, 62)), // Максимальная ширина и высота
+                    padding: WidgetStateProperty.all(
+                        EdgeInsets.all(5)), // Внутренний отступ
+                    elevation: WidgetStateProperty.all(
+                        5), // Высота кнопки (рельефность)
+                  ),
+                  child: Text(
+                    'Сканировать',
+                    style: TextStyle(color: Colors.white, fontSize: 24.0),
+                  ),
+                )
+              ]),
+            ),
+          )
+        : Scaffold(
+            backgroundColor: Colors.white,
+            body: Center(
+              child: Column(children: [
+                Text('Сканирование',
+                    style: TextStyle(color: Colors.black, fontSize: 48.0)),
+                Padding(
+                  padding: const EdgeInsets.all(50.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        height: MediaQuery.of(context).size.height * 0.75,
+                        decoration: BoxDecoration(
+                            color: Color.fromARGB(255, 242, 242, 242),
+                            borderRadius: BorderRadius.circular(20.0)),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                                padding: EdgeInsets.all(
+                                    0), // Удаление внешних отступов
+                                width: MediaQuery.of(context).size.width * 0.4,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.65,
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        border: Border(
+                                          bottom: BorderSide(
+                                              color: Colors
+                                                  .black), // Черная граница между шапкой и остальными строками
+                                        ),
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            flex: 3,
+                                            child: Container(
+                                              padding: EdgeInsets.all(8),
+                                              decoration: BoxDecoration(
+                                                border: Border(
+                                                  right: BorderSide(
+                                                      color: Colors
+                                                          .black), // Черная граница между столбцами
+                                                ),
+                                              ),
+                                              child: Text('Название'),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            flex: 1,
+                                            child: Container(
+                                              padding: EdgeInsets.all(8),
+                                              child: Text('Количество'),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: ListView.builder(
+                                        itemCount: list.length,
+                                        itemBuilder: (context, index) {
+                                          // Остальные строки таблицы
+                                          return Container(
+                                            decoration: BoxDecoration(
+                                              border: Border(
+                                                top: BorderSide(
+                                                    color: Colors
+                                                        .grey), // Серая граница между строками
+                                              ),
+                                            ),
+                                            child: Row(
+                                              children: [
+                                                Expanded(
+                                                  flex: 3,
+                                                  child: Container(
+                                                    padding: EdgeInsets.all(8),
+                                                    decoration: BoxDecoration(
+                                                      border: Border(
+                                                        right: BorderSide(
+                                                            color: Colors
+                                                                .black), // Черная граница между столбцами
+                                                      ),
+                                                    ),
+                                                    child: Text(list[index]
+                                                        ['значение']!),
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  flex: 1,
+                                                  child: Container(
+                                                    padding: EdgeInsets.all(8),
+                                                    child: Text(list[index]
+                                                        ['элемент']!),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                )),
+                            Container(
+                              height: MediaQuery.of(context).size.height * 0.1,
+                              child: Column(
+                                children: [
+                                  Container(
+                                    color: Colors.grey,
+                                    height: 1,
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.4,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: ElevatedButton(
+                                        onPressed: _startCamera,
+                                        child: Text('Сканировать')),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Container(
+                              height: MediaQuery.of(context).size.height * 0.2,
+                              decoration: BoxDecoration(color: Colors.grey),
+                              child: _controller != null &&
+                                      _controller!.value.isInitialized
+                                  ? CameraPreview(_controller!)
+                                  : Center(child: Text('Камера недоступна'))),
+                          SizedBox(
+                            height: 20.0,
+                          ),
+                          _lastImage != null
+                              ? Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.50,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.4,
+                                  decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.circular(20.0)),
+                                  child: Expanded(
+                                      child: Align(
+                                          alignment: Alignment.centerRight,
+                                          child: Image.file(
+                                              File(_lastImage!.path)))),
+                                )
+                              : Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.50,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.4,
+                                  decoration: BoxDecoration(
+                                      color: Color.fromARGB(255, 242, 242, 242),
+                                      borderRadius:
+                                          BorderRadius.circular(20.0)),
+                                  child: Center(
+                                      child: Text('Начало сканирования')),
+                                ),
+                        ],
+                      )
+                    ],
+                  ),
+                )
+              ]),
+            ),
+          );
+  }
+}
