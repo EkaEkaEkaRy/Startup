@@ -41,6 +41,7 @@ dependencies:
   cross_file: ^0.3.4+2
   google_fonts: ^6.2.1
   dio: 5.7.0
+  image: ^4.5.4
 
 dev_dependencies:
   flutter_test:
