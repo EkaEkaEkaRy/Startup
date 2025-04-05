@@ -1,7 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:startup/scan_page.dart';
-import 'package:startup/scan_result_page.dart';
+import 'package:startup/pages/scan_page.dart';
+import 'package:startup/pages/scan_result_page.dart';
 
 void main() {
   runApp(const MyApp());
