@@ -390,6 +390,9 @@ class _ScanPageState extends State<ScanPage> {
                                   child: Center(
                                       child: Text('Начало сканирования')),
                                 ),
+                          SizedBox(
+                            height: 30.0,
+                          ),
                           ElevatedButton(
                             onPressed: () {/*_scanFood*/},
                             style: ButtonStyle(
@@ -404,19 +407,39 @@ class _ScanPageState extends State<ScanPage> {
                               minimumSize: WidgetStateProperty.all(
                                   Size(259, 35)), // Минимальная ширина и высота
                               maximumSize: WidgetStateProperty.all(Size(
-                                  492, 62)), // Максимальная ширина и высота
+                                  259, 62)), // Максимальная ширина и высота
                               padding: WidgetStateProperty.all(
-                                  EdgeInsets.all(5)), // Внутренний отступ
+                                  EdgeInsets.symmetric(
+                                      vertical: 15,
+                                      horizontal: 10)), // Внутренний отступ
                               elevation: WidgetStateProperty.all(
                                   0), // Высота кнопки (рельефность)
                             ),
-                            child: Text(
-                              'Далее',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 24.0,
-                                  fontWeight: FontWeight.w500),
-                            ),
+                            child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'далее',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 24.0,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  Icon(
+                                    Icons.keyboard_arrow_right,
+                                    color: Colors.white,
+                                    size: 30,
+                                  ),
+                                  Icon(
+                                    Icons.keyboard_arrow_right,
+                                    color: Colors.white,
+                                    size: 30,
+                                  ),
+                                ]),
                           )
                         ],
                       )
