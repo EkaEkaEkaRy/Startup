@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 //import 'package:cross_file/cross_file.dart';
 
 class ScanPage extends StatefulWidget {
@@ -102,10 +103,11 @@ class _ScanPageState extends State<ScanPage> {
             backgroundColor: Colors.white,
             body: Center(
               child: Column(children: [
-                Text(
-                  'Сканирование',
-                  style: TextStyle(color: Colors.black, fontSize: 48.0),
-                ),
+                Text('Сканирование',
+                    style: GoogleFonts.montserrat(
+                        color: Colors.black,
+                        fontSize: 44.0,
+                        fontWeight: FontWeight.w500)),
                 Padding(
                     padding: const EdgeInsets.all(50.0),
                     child: Container(
@@ -149,8 +151,21 @@ class _ScanPageState extends State<ScanPage> {
             backgroundColor: Colors.white,
             body: Center(
               child: Column(children: [
-                Text('Сканирование',
-                    style: TextStyle(color: Colors.black, fontSize: 48.0)),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Сканирование',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 48.0,
+                            fontWeight: FontWeight.w500),
+                      )
+                    ],
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.all(50.0),
                   child: Row(
@@ -195,14 +210,24 @@ class _ScanPageState extends State<ScanPage> {
                                                           .black), // Черная граница между столбцами
                                                 ),
                                               ),
-                                              child: Text('Название'),
+                                              child: Text(
+                                                'Название',
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.w700),
+                                              ),
                                             ),
                                           ),
                                           Expanded(
                                             flex: 1,
                                             child: Container(
                                               padding: EdgeInsets.all(8),
-                                              child: Text('Количество'),
+                                              child: Text(
+                                                'Количество',
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.w700),
+                                              ),
                                             ),
                                           ),
                                         ],
@@ -265,11 +290,59 @@ class _ScanPageState extends State<ScanPage> {
                                         MediaQuery.of(context).size.width * 0.4,
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: ElevatedButton(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: ElevatedButton(
                                         onPressed: _startCamera,
-                                        child: Text('Сканировать')),
-                                  ),
+                                        style: ButtonStyle(
+                                          backgroundColor:
+                                              WidgetStateProperty.all(
+                                                  Color.fromARGB(
+                                                      255, 137, 137, 137)),
+                                          shape: WidgetStateProperty.all<
+                                              RoundedRectangleBorder>(
+                                            RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                            ),
+                                          ),
+                                          minimumSize: WidgetStateProperty.all(Size(
+                                              259,
+                                              35)), // Минимальная ширина и высота
+                                          maximumSize: WidgetStateProperty.all(Size(
+                                              259,
+                                              62)), // Максимальная ширина и высота
+                                          padding: WidgetStateProperty.all(
+                                              EdgeInsets.symmetric(
+                                                  vertical: 15,
+                                                  horizontal:
+                                                      10)), // Внутренний отступ
+                                          elevation: WidgetStateProperty.all(
+                                              0), // Высота кнопки (рельефность)
+                                        ),
+                                        child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Icon(
+                                                Icons.cached,
+                                                color: Colors.white,
+                                                size: 30,
+                                              ),
+                                              SizedBox(
+                                                width: 20,
+                                              ),
+                                              Text(
+                                                'Сканировать',
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 24.0,
+                                                    fontWeight:
+                                                        FontWeight.w400),
+                                              )
+                                            ]),
+                                      )),
                                 ],
                               ),
                             )
@@ -317,6 +390,34 @@ class _ScanPageState extends State<ScanPage> {
                                   child: Center(
                                       child: Text('Начало сканирования')),
                                 ),
+                          ElevatedButton(
+                            onPressed: () {/*_scanFood*/},
+                            style: ButtonStyle(
+                              backgroundColor: WidgetStateProperty.all(
+                                  Color.fromARGB(255, 0, 106, 244)),
+                              shape: WidgetStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                              ),
+                              minimumSize: WidgetStateProperty.all(
+                                  Size(259, 35)), // Минимальная ширина и высота
+                              maximumSize: WidgetStateProperty.all(Size(
+                                  492, 62)), // Максимальная ширина и высота
+                              padding: WidgetStateProperty.all(
+                                  EdgeInsets.all(5)), // Внутренний отступ
+                              elevation: WidgetStateProperty.all(
+                                  0), // Высота кнопки (рельефность)
+                            ),
+                            child: Text(
+                              'Далее',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 24.0,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          )
                         ],
                       )
                     ],

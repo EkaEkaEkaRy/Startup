@@ -39,6 +39,7 @@ dependencies:
   camera_windows: ^0.2.6+2
   camera_linux: ^0.0.8
   cross_file: ^0.3.4+2
+  google_fonts: ^6.2.1
 
 dev_dependencies:
   flutter_test:
