@@ -143,7 +143,8 @@ class _ScanPageState extends State<ScanPage> {
                   ),
                   child: Text(
                     'Сканировать',
-                    style: TextStyle(color: Colors.white, fontSize: 24.0),
+                    style: GoogleFonts.montserrat(
+                        color: Colors.white, fontSize: 24.0),
                   ),
                 )
               ]),
@@ -160,7 +161,7 @@ class _ScanPageState extends State<ScanPage> {
                     children: [
                       Text(
                         'Сканирование',
-                        style: TextStyle(
+                        style: GoogleFonts.montserrat(
                             color: Colors.black,
                             fontSize: 48.0,
                             fontWeight: FontWeight.w500),
@@ -214,7 +215,7 @@ class _ScanPageState extends State<ScanPage> {
                                               ),
                                               child: Text(
                                                 'Название',
-                                                style: TextStyle(
+                                                style: GoogleFonts.montserrat(
                                                     fontWeight:
                                                         FontWeight.w700),
                                               ),
@@ -226,7 +227,7 @@ class _ScanPageState extends State<ScanPage> {
                                               padding: EdgeInsets.all(8),
                                               child: Text(
                                                 'Количество',
-                                                style: TextStyle(
+                                                style: GoogleFonts.montserrat(
                                                     fontWeight:
                                                         FontWeight.w700),
                                               ),
@@ -337,7 +338,7 @@ class _ScanPageState extends State<ScanPage> {
                                               ),
                                               Text(
                                                 'Сканировать',
-                                                style: TextStyle(
+                                                style: GoogleFonts.montserrat(
                                                     color: Colors.white,
                                                     fontSize: 24.0,
                                                     fontWeight:
@@ -423,7 +424,7 @@ class _ScanPageState extends State<ScanPage> {
                                 children: [
                                   Text(
                                     'далее',
-                                    style: TextStyle(
+                                    style: GoogleFonts.montserrat(
                                         color: Colors.white,
                                         fontSize: 24.0,
                                         fontWeight: FontWeight.w500),
