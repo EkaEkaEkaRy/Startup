@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:startup/api/api.dart';
 //import 'package:cross_file/cross_file.dart';
 
 class ScanPage extends StatefulWidget {
@@ -77,6 +78,7 @@ class _ScanPageState extends State<ScanPage> {
     if (_controller != null && _controller!.value.isInitialized) {
       final image = await _controller!.takePicture();
       setState(() => _lastImage = image);
+      Apiservice().getItems(image);
     }
   }
 
