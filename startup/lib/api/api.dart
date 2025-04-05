@@ -1,5 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:dio/dio.dart';
+import 'package:http/http.dart' as http;
 
 class Apiservice {
   // инициализация библиотек
@@ -10,9 +11,24 @@ class Apiservice {
   // получение всех пользователей
   void getItems(XFile image) async {
     try {
-      final response = await _dio.post('${backend_link}track', data: {image});
+      // final response = await _dio.post('${backend_link}track', data: {image});
+      var request =
+          http.MultipartRequest('POST', Uri.parse('${backend_link}track'));
+
+      // Добавляем файл в запрос
+      request.files.add(
+        await http.MultipartFile.fromPath(
+          'image',
+          image.path,
+        ),
+      );
+
+      // Отправляем запрос
+      var response = await request.send();
+
       if (response.statusCode == 200) {
-        print(response.data);
+        var responseBody = await response.stream.bytesToString();
+        print('Успешно загружено: $responseBody');
       } else {
         throw Exception('Error ${response.statusCode}');
       }
