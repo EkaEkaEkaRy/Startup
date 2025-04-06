@@ -384,18 +384,22 @@ class _ScanPageState extends State<ScanPage> {
                               final jsonImage =
                                   await Apiservice().getItems(_lastImage!);
                               List<Product> products = [];
-
-                              for (var i in jsonImage) {
-                                final className = i['class_name'];
-                                final priceResponse =
-                                    await Apiservice().getPrice(className);
-                                final product = Product(
-                                    name: className,
-                                    price: double.parse(priceResponse),
-                                    quantity:
-                                        1); // не знаю как указывается количество
-                                products.add(product);
+                              try {
+                                for (var i in jsonImage) {
+                                  final className = i['name'];
+                                  final priceResponse =
+                                      await Apiservice().getPrice(className);
+                                  final product = Product(
+                                      name: className,
+                                      price: double.parse(priceResponse),
+                                      quantity:
+                                          1); // не знаю как указывается количество
+                                  products.add(product);
+                                }
+                              } catch (e) {
+                                print(e);
                               }
+
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
