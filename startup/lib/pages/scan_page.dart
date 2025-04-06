@@ -399,6 +399,13 @@ class _ScanPageState extends State<ScanPage> {
                               } catch (e) {
                                 print(e);
                               }
+                              for (var i in products) {
+                                print(i.name +
+                                    ' ' +
+                                    i.price.toString() +
+                                    ' ' +
+                                    i.price.runtimeType.toString());
+                              }
 
                               Navigator.push(
                                 context,

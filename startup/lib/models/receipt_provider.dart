@@ -16,7 +16,11 @@ class ReceiptProvider with ChangeNotifier {
   }
 
   void removeProduct(Product product) {
+    print('removeProduct fun called');
     _products.remove(product);
+    for (var i in products) {
+      print(i.name);
+    }
     notifyListeners();
   }
 }
