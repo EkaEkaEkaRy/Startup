@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:startup/api/api.dart';
 import 'package:startup/components/draw_output_image.dart';
+import 'package:startup/models/product_model.dart';
+import 'package:startup/pages/receipt_page.dart';
 //import 'package:cross_file/cross_file.dart';
 
 class ScanPage extends StatefulWidget {
@@ -120,7 +122,7 @@ class _ScanPageState extends State<ScanPage> {
                     padding: WidgetStateProperty.all(
                         EdgeInsets.all(5)), // Внутренний отступ
                     elevation: WidgetStateProperty.all(
-                        5), // Высота кнопки (рельефность)
+                        0), // Высота кнопки (рельефность)
                   ),
                   child: Text(
                     'Сканировать',
@@ -378,7 +380,29 @@ class _ScanPageState extends State<ScanPage> {
                             height: 30.0,
                           ),
                           ElevatedButton(
-                            onPressed: () {/*_scanFood*/},
+                            onPressed: () async {
+                              final jsonImage =
+                                  await Apiservice().getItems(_lastImage!);
+                              List<Product> products = [];
+
+                              for (var i in jsonImage) {
+                                final className = i['class_name'];
+                                final priceResponse =
+                                    await Apiservice().getPrice(className);
+                                final product = Product(
+                                    name: className,
+                                    price: double.parse(priceResponse),
+                                    quantity:
+                                        1); // не знаю как указывается количество
+                                products.add(product);
+                              }
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ReceiptPage(products: products)),
+                              );
+                            },
                             style: ButtonStyle(
                               backgroundColor: WidgetStateProperty.all(
                                   Color.fromARGB(255, 0, 106, 244)),
@@ -388,16 +412,14 @@ class _ScanPageState extends State<ScanPage> {
                                   borderRadius: BorderRadius.circular(15),
                                 ),
                               ),
-                              minimumSize: WidgetStateProperty.all(
-                                  Size(259, 35)), // Минимальная ширина и высота
-                              maximumSize: WidgetStateProperty.all(Size(
-                                  259, 62)), // Максимальная ширина и высота
+                              minimumSize:
+                                  WidgetStateProperty.all(Size(259, 35)),
+                              maximumSize:
+                                  WidgetStateProperty.all(Size(259, 62)),
                               padding: WidgetStateProperty.all(
                                   EdgeInsets.symmetric(
-                                      vertical: 15,
-                                      horizontal: 10)), // Внутренний отступ
-                              elevation: WidgetStateProperty.all(
-                                  0), // Высота кнопки (рельефность)
+                                      vertical: 15, horizontal: 10)),
+                              elevation: WidgetStateProperty.all(0),
                             ),
                             child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
