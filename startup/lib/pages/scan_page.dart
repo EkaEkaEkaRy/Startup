@@ -19,12 +19,7 @@ class ScanPage extends StatefulWidget {
 class _ScanPageState extends State<ScanPage> {
   CameraController? _controller;
   XFile? _lastImage;
-
-  final list = [
-    {'элемент': 'элемент', 'значение': 'значение'},
-    {'элемент': 'элемент', 'значение': 'значение'},
-    {'элемент': 'элемент', 'значение': 'значение'},
-  ];
+  List<Product> products = [];
 
   @override
   void initState() {
@@ -57,6 +52,26 @@ class _ScanPageState extends State<ScanPage> {
       XFile new_image;
       if (json_image.isNotEmpty) {
         new_image = await drawOutputImage(image, json_image);
+        products = [];
+        try {
+          for (var i in json_image) {
+            final className = i['name'];
+            if (!products.any((el) => el.name == className)) {
+              final priceResponse = await Apiservice().getPrice(className);
+              int quantity = 0;
+              for (var j in json_image) {
+                if (className == j['name']) quantity += 1;
+              }
+              final product = Product(
+                  name: className,
+                  price: double.parse(priceResponse) * quantity,
+                  quantity: quantity);
+              products.add(product);
+            }
+          }
+        } catch (e) {
+          print(e);
+        }
       } else {
         new_image = image;
       }
@@ -221,7 +236,7 @@ class _ScanPageState extends State<ScanPage> {
                                     ),
                                     Expanded(
                                       child: ListView.builder(
-                                        itemCount: list.length,
+                                        itemCount: products.length,
                                         itemBuilder: (context, index) {
                                           // Остальные строки таблицы
                                           return Container(
@@ -245,16 +260,17 @@ class _ScanPageState extends State<ScanPage> {
                                                                 .black), // Черная граница между столбцами
                                                       ),
                                                     ),
-                                                    child: Text(list[index]
-                                                        ['значение']!),
+                                                    child: Text(
+                                                        products[index].name),
                                                   ),
                                                 ),
                                                 Expanded(
                                                   flex: 1,
                                                   child: Container(
                                                     padding: EdgeInsets.all(8),
-                                                    child: Text(list[index]
-                                                        ['элемент']!),
+                                                    child: Text(products[index]
+                                                        .quantity
+                                                        .toString()),
                                                   ),
                                                 ),
                                               ],
@@ -381,24 +397,6 @@ class _ScanPageState extends State<ScanPage> {
                           ),
                           ElevatedButton(
                             onPressed: () async {
-                              final jsonImage =
-                                  await Apiservice().getItems(_lastImage!);
-                              List<Product> products = [];
-                              try {
-                                for (var i in jsonImage) {
-                                  final className = i['name'];
-                                  final priceResponse =
-                                      await Apiservice().getPrice(className);
-                                  final product = Product(
-                                      name: className,
-                                      price: double.parse(priceResponse),
-                                      quantity:
-                                          1); // не знаю как указывается количество
-                                  products.add(product);
-                                }
-                              } catch (e) {
-                                print(e);
-                              }
                               for (var i in products) {
                                 print(i.name +
                                     ' ' +
