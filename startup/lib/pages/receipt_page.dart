@@ -14,11 +14,17 @@ class ReceiptPage extends StatefulWidget {
 }
 
 class RreceiptPageState extends State<ReceiptPage> {
+  final receiptProvider = ReceiptProvider();
+  List<Product> products = [];
+  @override
+  void initState() {
+    receiptProvider.initProduct(widget.products);
+    products = receiptProvider.products;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final receiptProvider = Provider.of<ReceiptProvider>(context);
-    final products = receiptProvider.products;
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
@@ -71,7 +77,7 @@ class RreceiptPageState extends State<ReceiptPage> {
                                             fontSize: 20.0,
                                             fontWeight: FontWeight.w500)))
                               ],
-                              rows: widget.products.map((product) {
+                              rows: products.map((product) {
                                 return DataRow(cells: [
                                   DataCell(Text(product.name,
                                       style: GoogleFonts.montserrat(
@@ -98,8 +104,11 @@ class RreceiptPageState extends State<ReceiptPage> {
                                       // кнопка удаления продукта из чека
                                       ElevatedButton(
                                         onPressed: () {
-                                          receiptProvider
-                                              .removeProduct(product);
+                                          setState(() {
+                                            receiptProvider
+                                                .removeProduct(product);
+                                            products = receiptProvider.products;
+                                          });
                                         },
                                         style: ButtonStyle(
                                           backgroundColor:

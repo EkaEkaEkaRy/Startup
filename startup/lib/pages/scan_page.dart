@@ -19,7 +19,11 @@ class ScanPage extends StatefulWidget {
 class _ScanPageState extends State<ScanPage> {
   CameraController? _controller;
   XFile? _lastImage;
-  List<Product> products = [];
+  List<Product> products = [
+    Product(name: 'className', price: 400.0, quantity: 1),
+    Product(name: 'className2', price: 24.0, quantity: 1),
+    Product(name: 'className3', price: 19.0, quantity: 1),
+  ];
 
   @override
   void initState() {
@@ -77,6 +81,10 @@ class _ScanPageState extends State<ScanPage> {
       }
 
       setState(() => _lastImage = new_image);
+
+      /*
+      final image = await _controller!.takePicture();
+      setState(() => _lastImage = image);*/
     }
   }
 
@@ -130,19 +138,18 @@ class _ScanPageState extends State<ScanPage> {
                         borderRadius: BorderRadius.circular(15),
                       ),
                     ),
-                    minimumSize: WidgetStateProperty.all(
-                        Size(259, 35)), // Минимальная ширина и высота
-                    maximumSize: WidgetStateProperty.all(
-                        Size(492, 62)), // Максимальная ширина и высота
+                    minimumSize: WidgetStateProperty.all(Size(259, 35)),
+                    maximumSize: WidgetStateProperty.all(Size(259, 62)),
                     padding: WidgetStateProperty.all(
-                        EdgeInsets.all(5)), // Внутренний отступ
-                    elevation: WidgetStateProperty.all(
-                        0), // Высота кнопки (рельефность)
+                        EdgeInsets.symmetric(vertical: 15, horizontal: 10)),
+                    elevation: WidgetStateProperty.all(0),
                   ),
                   child: Text(
                     'Сканировать',
                     style: GoogleFonts.montserrat(
-                        color: Colors.white, fontSize: 24.0),
+                        color: Colors.white,
+                        fontSize: 24.0,
+                        fontWeight: FontWeight.w500),
                   ),
                 )
               ]),
@@ -307,19 +314,15 @@ class _ScanPageState extends State<ScanPage> {
                                                   BorderRadius.circular(15),
                                             ),
                                           ),
-                                          minimumSize: WidgetStateProperty.all(Size(
-                                              259,
-                                              35)), // Минимальная ширина и высота
-                                          maximumSize: WidgetStateProperty.all(Size(
-                                              259,
-                                              62)), // Максимальная ширина и высота
+                                          minimumSize: WidgetStateProperty.all(
+                                              Size(259, 35)),
+                                          maximumSize: WidgetStateProperty.all(
+                                              Size(259, 62)),
                                           padding: WidgetStateProperty.all(
                                               EdgeInsets.symmetric(
                                                   vertical: 15,
-                                                  horizontal:
-                                                      10)), // Внутренний отступ
-                                          elevation: WidgetStateProperty.all(
-                                              0), // Высота кнопки (рельефность)
+                                                  horizontal: 10)),
+                                          elevation: WidgetStateProperty.all(0),
                                         ),
                                         child: Row(
                                             mainAxisAlignment:
@@ -341,7 +344,7 @@ class _ScanPageState extends State<ScanPage> {
                                                     color: Colors.white,
                                                     fontSize: 24.0,
                                                     fontWeight:
-                                                        FontWeight.w400),
+                                                        FontWeight.w500),
                                               )
                                             ]),
                                       )),

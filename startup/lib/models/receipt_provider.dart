@@ -10,17 +10,25 @@ class ReceiptProvider with ChangeNotifier {
   double get totalSum => _products.fold(
       0.0, (sum, product) => sum + product.price * product.quantity);
 
+  void initProduct(List<Product> products) {
+    _products = products;
+  }
+
   void addProduct(Product product) {
     _products.add(product);
     notifyListeners();
   }
 
   void removeProduct(Product product) {
-    print('removeProduct fun called');
-    _products.remove(product);
-    for (var i in products) {
-      print(i.name);
+    try {
+      print('removeProduct fun called');
+      _products.remove(product);
+      for (var i in products) {
+        print(i.name);
+      }
+      notifyListeners();
+    } catch (e) {
+      print(e);
     }
-    notifyListeners();
   }
 }

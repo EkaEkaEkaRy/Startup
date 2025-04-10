@@ -3,12 +3,14 @@ import 'dart:convert';
 import 'package:camera/camera.dart';
 //import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:startup/api/env.dart';
 
 class Apiservice {
   // инициализация библиотек
   //final Dio _dio = Dio();
-  final backend_link =
-      'https://musical-parakeet-7g7jx75jx2w6jx-8000.app.github.dev/';
+
+  final backend_link = AppConfig.backendUrl;
 
   // получение всех пользователей
   Future<List> getItems(XFile image) async {

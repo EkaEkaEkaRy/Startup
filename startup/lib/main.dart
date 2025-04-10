@@ -4,13 +4,16 @@ import 'package:provider/provider.dart';
 import 'package:startup/models/receipt_provider.dart';
 import 'package:startup/pages/scan_page.dart';
 import 'package:startup/pages/scan_result_page.dart';
+import 'package:startup/api/env.dart';
 
-void main() {
+void main() async {
   runApp(
     MultiProvider(providers: [
       ChangeNotifierProvider(create: (_) => ReceiptProvider()),
     ], child: const MyApp()),
   );
+  WidgetsFlutterBinding.ensureInitialized();
+  await AppConfig.load();
 }
 
 class MyApp extends StatelessWidget {
