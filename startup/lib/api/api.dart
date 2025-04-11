@@ -10,12 +10,14 @@ class Apiservice {
   // инициализация библиотек
   //final Dio _dio = Dio();
 
-  final backend_link = AppConfig.backendUrl;
+  //final backend_link = AppConfig.backendUrl;
+  final backend_link = 'http://127.0.0.1:8000/';
 
   // получение всех пользователей
   Future<List> getItems(XFile image) async {
     try {
       // final response = await _dio.post('${backend_link}track', data: {image});
+      print(backend_link);
       var request =
           http.MultipartRequest('POST', Uri.parse('${backend_link}track'));
 

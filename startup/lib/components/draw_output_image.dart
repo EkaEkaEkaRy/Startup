@@ -70,8 +70,12 @@ Future<XFile> drawOutputImage(XFile inputFile, List trackJson) async {
   // Сохранение изображения в файл
   final newBytes = await drawnImage.toByteData(format: ui.ImageByteFormat.png);
   final Uint8List byteList = newBytes!.buffer.asUint8List();
+
+  // Сохранение изображения в файл с уникальным именем
   final directory = await getApplicationDocumentsDirectory();
-  final outputFile = File('${directory.path}/output.png');
+  final outputFile = File(
+      '${directory.path}/output_${DateTime.now().millisecondsSinceEpoch}.png');
+
   await outputFile.writeAsBytes(byteList);
 
   return XFile(outputFile.path);

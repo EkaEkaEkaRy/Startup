@@ -51,6 +51,7 @@ class _ScanPageState extends State<ScanPage> {
 
   Future<void> _startCamera() async {
     if (_controller != null && _controller!.value.isInitialized) {
+      products = [];
       final image = await _controller!.takePicture();
       List json_image = await Apiservice().getItems(image);
       XFile new_image;
