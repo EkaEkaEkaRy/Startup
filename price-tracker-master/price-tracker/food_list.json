@@ -1,0 +1,22 @@
+[
+  {
+    "food_name": "borsch",
+    "cost": 100
+  },
+  {
+    "food_name": "compot",
+    "cost": 40
+  },
+  {
+    "food_name": "macaroni",
+    "cost": 60
+  },
+  {
+    "food_name": "mashed_potatoes",
+    "cost": 65
+  },
+  {
+    "food_name": "cutlet",
+    "cost": 120
+  }
+]

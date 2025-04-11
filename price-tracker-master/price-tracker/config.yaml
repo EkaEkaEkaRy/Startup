@@ -1,0 +1,11 @@
+path: D:/2 kurs/spo/price-tracker/price-tracker/menu
+train: images
+val: images
+
+
+names:
+    0: borsch
+    1: mashed_potatoes
+    2: macaroni
+    3: cutlet
+    4: compot

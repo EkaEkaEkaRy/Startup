@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>Food CV</title>
+    <meta charset="utf-8"/>
+</head>
+<body>
+    <h1>Track Image</h1>
+    <input id="image-input" type="file" name="image" />
+    <canvas id="image-output" width="800" height="600"></canvas>
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        body {
+            padding: 40px;
+            font-family: sans-serif
+        }
+        input
+        {
+            display: block
+        }
+        #image-output {
+            height: 500px;
+            border: 4px dashed black;
+            border-radius: 20px;
+            margin: 10px auto;
+            display: block;
+            background-repeat: no-repeat;
+            background-size: contain
+        }
+    </style>
+    <script>
+        const canvasElement = document.getElementById("image-output")
+        const context = canvasElement.getContext("2d")
+        
+        document.getElementById("image-input").addEventListener('change', onImageAdded);
+        async function onImageAdded(event) {
+            const input = event.target;
+            const file = input.files[0];
+
+            const formData = new FormData();
+            formData.append("image", file)
+
+            const imageUrl = URL.createObjectURL(file)
+            const tempImageElement = document.createElement('img')
+            tempImageElement.src = imageUrl; 
+
+            const response = await fetch("/track", { method: 'POST', body: formData })
+
+            console.log(response)
+            const trackJson = JSON.parse(await response.json());
+            drawOutputImage(tempImageElement, trackJson)
+        }
+
+        async function drawOutputImage(image, trackJson)
+        {
+            const scaleFactor = getScaleFactor(image)
+            
+            
+            context.drawImage(image, 0, 0, image.width * scaleFactor, image.height * scaleFactor);
+            
+
+            console.log(trackJson);
+            for (let trackResult of trackJson) {
+                for (key in trackResult.box) {
+                    trackResult.box[key] *= scaleFactor
+                }
+                
+                context.strokeStyle = "blue"
+                context.fillStyle = "blue"
+                context.font = "600 24px Arial"
+                context.textBaseline = "bottom"
+                context.lineWidth = 5
+
+                console.log(trackResult)
+                const { x1, y1, x2, y2 } = trackResult.box
+                context.fillText(`${trackResult.name} ${Math.ceil(trackResult.confidence * 100) / 100}`, x1, y1)
+                context.strokeRect(x1, y1, x2 - x1, y2 - y1)
+
+                const priceResponse = await fetch("/price?class_name=" + trackResult.name);
+                const price = await priceResponse.text();
+
+                context.textBaseline = "top"
+                context.fillText(`Цена ${price} рублей`, x1, y2)
+
+                drawSegments(trackResult.segments, scaleFactor)
+            }
+        }
+
+        function getScaleFactor(image) {
+
+
+            let scaleFactor = 1;
+            if (image.width > image.height) {
+                scaleFactor = context.canvas.width / image.width
+                context.canvas.height = image.height * scaleFactor
+            }
+            else {
+                scaleFactor = context.canvas.height / image.height
+                context.canvas.width = image.width * scaleFactor
+            }
+            console.log(scaleFactor)
+            return scaleFactor
+        }
+
+        function drawSegments({ x, y }, scaleFactor) {
+            context.beginPath();
+            console.log(x)
+            context.moveTo(x[0] * scaleFactor, y[0] * scaleFactor)
+            for (let i = 1; i < x.length; i++) {
+                context.lineTo(x[i] * scaleFactor, y[i] * scaleFactor)
+            }
+            context.closePath();
+            context.fillStyle = "rgba(0, 7, 255, 0.5)";
+            context.fill();
+        }
+    </script>
+</body>
+</html>
