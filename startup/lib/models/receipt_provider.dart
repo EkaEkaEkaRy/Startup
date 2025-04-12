@@ -18,6 +18,9 @@ class ReceiptProvider with ChangeNotifier {
     try {
       print('addProduct fun called');
       _products.add(product);
+      for (var i in _products) {
+        print(i.name);
+      }
       notifyListeners();
     } catch (e) {
       print(e);
