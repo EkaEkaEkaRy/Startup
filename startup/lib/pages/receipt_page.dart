@@ -31,190 +31,161 @@ class RreceiptPageState extends State<ReceiptPage> {
     return translations[key] ?? key;
   }
 
-  void showCustomDialog(BuildContext context) {
-    showDialog(
+  Future<Product?> showCustomDialog(BuildContext context) async {
+    return await showDialog<Product>(
       context: context,
       builder: (BuildContext context) {
         String selectedProduct = '';
         int quantity = 1;
-        return StatefulBuilder(builder: (context, setState) {
-          final items = translations;
-          List<DropdownMenuItem<String>> rus_items = items.keys.map((key) {
-            return DropdownMenuItem<String>(
-              child: Text(items[key]!),
-              value: key,
-            );
-          }).toList();
-          return Dialog(
-            child: Container(
-              width: 600, // Установите ширину окна
-              height: 400, // Установите высоту окна
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 40.0, horizontal: 30.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Добавить продукт',
-                              style: GoogleFonts.montserrat(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 20.0,
-                        ),
-                        DropdownButtonFormField(
-                          decoration: InputDecoration(
-                            labelText: 'Выберите продукт',
-                            labelStyle: GoogleFonts.montserrat(
-                                fontSize: 16,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w400),
-                            border: OutlineInputBorder(),
+
+        return StatefulBuilder(
+          builder: (context, setState) {
+            final items = translations;
+            List<DropdownMenuItem<String>> rus_items = items.keys.map((key) {
+              return DropdownMenuItem<String>(
+                child: Text(items[key]!),
+                value: key,
+              );
+            }).toList();
+
+            return Dialog(
+              child: Container(
+                width: 600,
+                height: 400,
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 40.0, horizontal: 30.0),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Добавить продукт',
+                                style: GoogleFonts.montserrat(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                            ],
                           ),
-                          items: rus_items,
-                          onChanged: (value) {
-                            setState(() {
-                              selectedProduct = value!;
-                            });
-                          },
-                          value:
-                              selectedProduct.isEmpty ? null : selectedProduct,
-                        ),
-                        SizedBox(height: 20),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Text(
-                              'Количество',
-                              style: GoogleFonts.montserrat(
+                          SizedBox(
+                            height: 20.0,
+                          ),
+                          DropdownButtonFormField(
+                            decoration: InputDecoration(
+                              labelText: 'Выберите продукт',
+                              labelStyle: GoogleFonts.montserrat(
                                   fontSize: 16,
                                   color: Colors.black,
                                   fontWeight: FontWeight.w400),
+                              border: OutlineInputBorder(),
                             ),
-                            Row(
-                              children: [
-                                IconButton(
-                                  onPressed: () {
-                                    if (quantity > 1) {
-                                      setState(() {
-                                        quantity--;
-                                      });
-                                    }
-                                  },
-                                  icon: Icon(
-                                    Icons.remove,
-                                    size: 40,
-                                  ),
-                                  color: Colors.blue,
-                                ),
-                                SizedBox(
-                                  width: 5.0,
-                                ),
-                                Text(
-                                  quantity.toString(),
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                                SizedBox(
-                                  width: 5.0,
-                                ),
-                                IconButton(
-                                  onPressed: () {
-                                    if (quantity <= 10) {
-                                      setState(() {
-                                        quantity++;
-                                      });
-                                    }
-                                  },
-                                  icon: Icon(
-                                    Icons.add,
-                                    size: 40,
-                                  ),
-                                  color: Colors.blue,
-                                ),
-                              ],
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 20), // Добавьте этот SizedBox для отступа
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          style: TextButton.styleFrom(
-                            foregroundColor: Color.fromARGB(255, 0, 106, 244),
+                            items: rus_items,
+                            onChanged: (value) {
+                              setState(() {
+                                selectedProduct = value!;
+                              });
+                            },
+                            value: selectedProduct.isEmpty
+                                ? null
+                                : selectedProduct,
                           ),
-                          child: Text(
-                            'Отмена',
-                            style: GoogleFonts.montserrat(
-                                fontSize: 16.0,
-                                color: const Color.fromARGB(255, 118, 118, 118),
-                                fontWeight: FontWeight.w400),
-                          ),
-                        ),
-                        ElevatedButton(
-                          onPressed: () async {
-                            final priceResponse =
-                                await Apiservice().getPrice(selectedProduct);
-                            final product = Product(
-                              name: translate(selectedProduct),
-                              price: double.parse(priceResponse) * quantity,
-                              quantity: quantity,
-                            );
-                            setState(() {
-                              receiptProvider.addProduct(product);
-                            });
-                            Navigator.of(context).pop();
-                          },
-                          style: ButtonStyle(
-                            backgroundColor: WidgetStateProperty.all(
-                                Color.fromARGB(255, 0, 106, 244)),
-                            shape:
-                                WidgetStateProperty.all<RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
+                          SizedBox(height: 20),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(
+                                'Количество',
+                                style: GoogleFonts.montserrat(
+                                    fontSize: 16,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w400),
                               ),
-                            ),
-                            minimumSize: WidgetStateProperty.all(Size(259, 50)),
-                            maximumSize: WidgetStateProperty.all(Size(259, 60)),
-                            padding: WidgetStateProperty.all(
-                                EdgeInsets.symmetric(
-                                    vertical: 15, horizontal: 10)),
-                            elevation: WidgetStateProperty.all(0),
-                          ),
-                          child: Text(
-                            'Добавить',
-                            style: GoogleFonts.montserrat(
-                                fontSize: 16,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                      ],
+                              Row(
+                                children: [
+                                  IconButton(
+                                    onPressed: () {
+                                      if (quantity > 1) {
+                                        setState(() {
+                                          quantity--;
+                                        });
+                                      }
+                                    },
+                                    icon: Icon(
+                                      Icons.remove,
+                                      size: 40,
+                                    ),
+                                    color: Colors.blue,
+                                  ),
+                                  SizedBox(
+                                    width: 5.0,
+                                  ),
+                                  Text(
+                                    quantity.toString(),
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  SizedBox(
+                                    width: 5.0,
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      if (quantity <= 10) {
+                                        setState(() {
+                                          quantity++;
+                                        });
+                                      }
+                                    },
+                                    icon: Icon(
+                                      Icons.add,
+                                      size: 40,
+                                    ),
+                                    color: Colors.blue,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context)
+                                  .pop(null); // Возвращаем null
+                            },
+                            child: Text('Отмена'),
+                          ),
+                          ElevatedButton(
+                            onPressed: () async {
+                              final priceResponse =
+                                  await Apiservice().getPrice(selectedProduct);
+                              final product = Product(
+                                name: translate(selectedProduct),
+                                price: double.parse(priceResponse) * quantity,
+                                quantity: quantity,
+                              );
+                              Navigator.of(context)
+                                  .pop(product); // Возвращаем продукт
+                            },
+                            child: Text('Добавить'),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          );
-        });
+            );
+          },
+        );
       },
     );
   }
@@ -492,11 +463,15 @@ class RreceiptPageState extends State<ReceiptPage> {
                               children: [
                                 // кнопка добавления продукта в чек (пока без функции)
                                 ElevatedButton(
-                                  onPressed: () {
-                                    showCustomDialog(context);
-                                    setState(() {
-                                      products = receiptProvider.products;
-                                    });
+                                  onPressed: () async {
+                                    final new_product =
+                                        await showCustomDialog(context);
+                                    if (new_product != null) {
+                                      setState(() {
+                                        receiptProvider.addProduct(new_product);
+                                        products = receiptProvider.products;
+                                      });
+                                    }
                                   },
                                   style: ButtonStyle(
                                     backgroundColor: WidgetStateProperty.all(
