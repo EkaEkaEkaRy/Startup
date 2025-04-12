@@ -7,8 +7,8 @@ import 'package:startup/pages/scan_result_page.dart';
 import 'package:startup/api/env.dart';
 
 void main() async {
-  //WidgetsFlutterBinding.ensureInitialized();
-  //await AppConfig.load();
+  WidgetsFlutterBinding.ensureInitialized();
+  await AppConfig.load();
   runApp(
     MultiProvider(providers: [
       ChangeNotifierProvider(create: (_) => ReceiptProvider()),
