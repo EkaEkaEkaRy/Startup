@@ -20,11 +20,7 @@ class ScanPage extends StatefulWidget {
 class _ScanPageState extends State<ScanPage> {
   CameraController? _controller;
   XFile? _lastImage;
-  List<Product> products = [
-    Product(name: 'className', price: 400.0, quantity: 1),
-    Product(name: 'className2', price: 24.0, quantity: 1),
-    Product(name: 'className3', price: 19.0, quantity: 1),
-  ];
+  List<Product> products = [];
 
   @override
   void initState() {
@@ -62,7 +58,7 @@ class _ScanPageState extends State<ScanPage> {
         try {
           for (var i in jsonImage) {
             final className = i['name'];
-            if (!products.any((el) => el.name == className)) {
+            if (!products.any((el) => el.name == translate(className))) {
               final priceResponse = await Apiservice().getPrice(className);
               int quantity = 0;
               for (var j in jsonImage) {
