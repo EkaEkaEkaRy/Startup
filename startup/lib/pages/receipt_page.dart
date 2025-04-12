@@ -41,8 +41,10 @@ class RreceiptPageState extends State<ReceiptPage> {
           final items = translations;
           List<DropdownMenuItem<String>> rus_items = items.keys.map((key) {
             return DropdownMenuItem<String>(
-              child: Text(items[key]!),
               value: key,
+              child: Text(items[key]!,
+                  style: GoogleFonts.montserrat(
+                      fontSize: 16, fontWeight: FontWeight.w400)),
             );
           }).toList();
           return Dialog(
