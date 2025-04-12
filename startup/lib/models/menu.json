@@ -1,0 +1,22 @@
+[
+  {
+    "name": "borsch",
+    "price": 100
+  },
+  {
+    "name": "compot",
+    "price": 40
+  },
+  {
+    "name": "macaroni",
+    "price": 60
+  },
+  {
+    "name": "mashed_potatoes",
+    "price": 65
+  },
+  {
+    "name": "cutlet",
+    "price": 120
+  }
+]

@@ -4,6 +4,7 @@ import 'package:startup/models/product_model.dart';
 import 'package:provider/provider.dart';
 import 'package:startup/models/receipt_provider.dart';
 import 'package:startup/pages/payment_papge.dart';
+import 'package:startup/models/translation.dart';
 
 class ReceiptPage extends StatefulWidget {
   final List<Product> products;
@@ -16,11 +17,17 @@ class ReceiptPage extends StatefulWidget {
 class RreceiptPageState extends State<ReceiptPage> {
   final receiptProvider = ReceiptProvider();
   List<Product> products = [];
+  List<Product> menu = [];
   @override
   void initState() {
     receiptProvider.initProduct(widget.products);
     products = receiptProvider.products;
     super.initState();
+  }
+
+  // перевод еды с бэка на русский
+  String translate(String key) {
+    return translations[key] ?? key;
   }
 
   @override
@@ -179,7 +186,109 @@ class RreceiptPageState extends State<ReceiptPage> {
                               children: [
                                 // кнопка добавления продукта в чек (пока без функции)
                                 ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    /*showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          String selectedProduct = '';
+                                          int quantity = 1;
+                                          return StatefulBuilder(
+                                              builder: (context, setState) {
+                                            List<DropdownMenuItem<String>>
+                                                items = receiptProvider.menu
+                                                    .map((Product product) {
+                                              return DropdownMenuItem<String>(
+                                                child: Text(product.name),
+                                                value: product.name,
+                                              );
+                                            }).toList();
+                                            return AlertDialog(
+                                              title: Text('Добавить продукт'),
+                                              content: Padding(
+                                                padding: EdgeInsets.all(3.0),
+                                                child: Column(
+                                                  children: [
+                                                    DropdownButton(
+                                                        items: items,
+                                                        onChanged: (value) {
+                                                          setState(() {
+                                                            selectedProduct =
+                                                                value!;
+                                                          });
+                                                        },
+                                                        value: selectedProduct
+                                                                .isEmpty
+                                                            ? null
+                                                            : selectedProduct,
+                                                        hint: Text(
+                                                            'выбреите продукт')),
+                                                    SizedBox(
+                                                      height: 20,
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        Text('Количество'),
+                                                        IconButton(
+                                                            onPressed: () {
+                                                              if (quantity >
+                                                                  1) {
+                                                                setState(() {
+                                                                  quantity--;
+                                                                });
+                                                              }
+                                                            },
+                                                            icon: Icon(
+                                                                Icons.remove)),
+                                                        Text(quantity
+                                                            .toString()),
+                                                        IconButton(
+                                                            onPressed: () {
+                                                              if (quantity <=
+                                                                  10) {
+                                                                setState(() {
+                                                                  quantity++;
+                                                                });
+                                                              }
+                                                            },
+                                                            icon: Icon(
+                                                                Icons.add)),
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: Text('Отмена'),
+                                                ),
+                                                ElevatedButton(
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        receiptProvider
+                                                            .addProduct(Product(
+                                                                name:
+                                                                    selectedProduct,
+                                                                quantity:
+                                                                    quantity,
+                                                                price: 0));
+                                                        products =
+                                                            receiptProvider
+                                                                .products;
+                                                      });
+                                                      print(
+                                                          'Продукт: $selectedProduct, Количество: $quantity');
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                    child: Text('Добавить'))
+                                              ],
+                                            );
+                                          });
+                                        });*/
+                                  },
                                   style: ButtonStyle(
                                     backgroundColor: WidgetStateProperty.all(
                                         Color.fromARGB(255, 217, 217, 217)),
