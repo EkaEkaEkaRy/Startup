@@ -1,0 +1,13 @@
+C:/Users/Viktoria/Vika/startup/Startup/startup/windows/build/CMakeFiles/INSTALL.dir
+C:/Users/Viktoria/Vika/startup/Startup/startup/windows/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/Viktoria/Vika/startup/Startup/startup/windows/build/CMakeFiles/ZERO_CHECK.dir
+C:/Users/Viktoria/Vika/startup/Startup/startup/windows/build/flutter/CMakeFiles/flutter_wrapper_plugin.dir
+C:/Users/Viktoria/Vika/startup/Startup/startup/windows/build/flutter/CMakeFiles/flutter_wrapper_app.dir
+C:/Users/Viktoria/Vika/startup/Startup/startup/windows/build/flutter/CMakeFiles/flutter_assemble.dir
+C:/Users/Viktoria/Vika/startup/Startup/startup/windows/build/flutter/CMakeFiles/INSTALL.dir
+C:/Users/Viktoria/Vika/startup/Startup/startup/windows/build/runner/CMakeFiles/startup.dir
+C:/Users/Viktoria/Vika/startup/Startup/startup/windows/build/runner/CMakeFiles/INSTALL.dir
+C:/Users/Viktoria/Vika/startup/Startup/startup/windows/build/runner/CMakeFiles/ALL_BUILD.dir
+C:/Users/Viktoria/Vika/startup/Startup/startup/windows/build/plugins/camera_windows/CMakeFiles/camera_windows_plugin.dir
+C:/Users/Viktoria/Vika/startup/Startup/startup/windows/build/plugins/camera_windows/CMakeFiles/INSTALL.dir
+C:/Users/Viktoria/Vika/startup/Startup/startup/windows/build/plugins/camera_windows/CMakeFiles/ALL_BUILD.dir

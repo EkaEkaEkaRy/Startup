@@ -1,0 +1,10 @@
+^C:\USERS\VIKTORIA\VIKA\STARTUP\STARTUP\STARTUP\WINDOWS\FLUTTER\CMAKELISTS.TXT
+setlocal
+C:\Users\Viktoria\AppData\Local\Programs\Python\Python310\Lib\site-packages\cmake\data\bin\cmake.exe -SC:/Users/Viktoria/Vika/startup/Startup/startup/windows -BC:/Users/Viktoria/Vika/startup/Startup/startup/windows/build --check-stamp-file C:/Users/Viktoria/Vika/startup/Startup/startup/windows/build/flutter/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
