@@ -30,6 +30,91 @@ class RreceiptPageState extends State<ReceiptPage> {
     return translations[key] ?? key;
   }
 
+  void showCustomDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          String selectedProduct = '';
+          int quantity = 1;
+          return StatefulBuilder(builder: (context, setState) {
+            final items = translations;
+            List<DropdownMenuItem<String>> rus_items = items.keys.map((key) {
+              return DropdownMenuItem<String>(
+                child: Text(items[key]!),
+                value: key,
+              );
+            }).toList();
+            return AlertDialog(
+              title: Text('Добавить продукт'),
+              content: Padding(
+                padding: EdgeInsets.all(3.0),
+                child: Column(
+                  children: [
+                    DropdownButton(
+                        items: rus_items,
+                        onChanged: (value) {
+                          setState(() {
+                            selectedProduct = value!;
+                          });
+                        },
+                        value: selectedProduct.isEmpty ? null : selectedProduct,
+                        hint: Text('выбреите продукт')),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      children: [
+                        Text('Количество'),
+                        IconButton(
+                            onPressed: () {
+                              if (quantity > 1) {
+                                setState(() {
+                                  quantity--;
+                                });
+                              }
+                            },
+                            icon: Icon(Icons.remove)),
+                        Text(quantity.toString()),
+                        IconButton(
+                            onPressed: () {
+                              if (quantity <= 10) {
+                                setState(() {
+                                  quantity++;
+                                });
+                              }
+                            },
+                            icon: Icon(Icons.add)),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Отмена'),
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        receiptProvider.addProduct(Product(
+                            name: selectedProduct,
+                            quantity: quantity,
+                            price: 0));
+                        products = receiptProvider.products;
+                      });
+                      print('Продукт: $selectedProduct, Количество: $quantity');
+                      Navigator.of(context).pop();
+                    },
+                    child: Text('Добавить'))
+              ],
+            );
+          });
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -304,107 +389,7 @@ class RreceiptPageState extends State<ReceiptPage> {
                                 // кнопка добавления продукта в чек (пока без функции)
                                 ElevatedButton(
                                   onPressed: () {
-                                    /*showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          String selectedProduct = '';
-                                          int quantity = 1;
-                                          return StatefulBuilder(
-                                              builder: (context, setState) {
-                                            List<DropdownMenuItem<String>>
-                                                items = receiptProvider.menu
-                                                    .map((Product product) {
-                                              return DropdownMenuItem<String>(
-                                                child: Text(product.name),
-                                                value: product.name,
-                                              );
-                                            }).toList();
-                                            return AlertDialog(
-                                              title: Text('Добавить продукт'),
-                                              content: Padding(
-                                                padding: EdgeInsets.all(3.0),
-                                                child: Column(
-                                                  children: [
-                                                    DropdownButton(
-                                                        items: items,
-                                                        onChanged: (value) {
-                                                          setState(() {
-                                                            selectedProduct =
-                                                                value!;
-                                                          });
-                                                        },
-                                                        value: selectedProduct
-                                                                .isEmpty
-                                                            ? null
-                                                            : selectedProduct,
-                                                        hint: Text(
-                                                            'выбреите продукт')),
-                                                    SizedBox(
-                                                      height: 20,
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        Text('Количество'),
-                                                        IconButton(
-                                                            onPressed: () {
-                                                              if (quantity >
-                                                                  1) {
-                                                                setState(() {
-                                                                  quantity--;
-                                                                });
-                                                              }
-                                                            },
-                                                            icon: Icon(
-                                                                Icons.remove)),
-                                                        Text(quantity
-                                                            .toString()),
-                                                        IconButton(
-                                                            onPressed: () {
-                                                              if (quantity <=
-                                                                  10) {
-                                                                setState(() {
-                                                                  quantity++;
-                                                                });
-                                                              }
-                                                            },
-                                                            icon: Icon(
-                                                                Icons.add)),
-                                                      ],
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                              actions: [
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                  child: Text('Отмена'),
-                                                ),
-                                                ElevatedButton(
-                                                    onPressed: () {
-                                                      setState(() {
-                                                        receiptProvider
-                                                            .addProduct(Product(
-                                                                name:
-                                                                    selectedProduct,
-                                                                quantity:
-                                                                    quantity,
-                                                                price: 0));
-                                                        products =
-                                                            receiptProvider
-                                                                .products;
-                                                      });
-                                                      print(
-                                                          'Продукт: $selectedProduct, Количество: $quantity');
-                                                      Navigator.of(context)
-                                                          .pop();
-                                                    },
-                                                    child: Text('Добавить'))
-                                              ],
-                                            );
-                                          });
-                                        });*/
+                                    showCustomDialog(context);
                                   },
                                   style: ButtonStyle(
                                     backgroundColor: WidgetStateProperty.all(
