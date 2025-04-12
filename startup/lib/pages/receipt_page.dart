@@ -60,6 +60,7 @@ class RreceiptPageState extends State<ReceiptPage> {
                       padding: const EdgeInsets.symmetric(
                           vertical: 40.0, horizontal: 30.0),
                       child: Column(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -153,6 +154,7 @@ class RreceiptPageState extends State<ReceiptPage> {
                         ],
                       ),
                     ),
+                    SizedBox(height: 20),
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Row(
@@ -163,7 +165,17 @@ class RreceiptPageState extends State<ReceiptPage> {
                               Navigator.of(context)
                                   .pop(null); // Возвращаем null
                             },
-                            child: Text('Отмена'),
+                            style: TextButton.styleFrom(
+                              foregroundColor: Color.fromARGB(255, 0, 106, 244),
+                            ),
+                            child: Text(
+                              'Отмена',
+                              style: GoogleFonts.montserrat(
+                                  fontSize: 16.0,
+                                  color:
+                                      const Color.fromARGB(255, 118, 118, 118),
+                                  fontWeight: FontWeight.w400),
+                            ),
                           ),
                           ElevatedButton(
                             onPressed: () async {
@@ -177,7 +189,31 @@ class RreceiptPageState extends State<ReceiptPage> {
                               Navigator.of(context)
                                   .pop(product); // Возвращаем продукт
                             },
-                            child: Text('Добавить'),
+                            style: ButtonStyle(
+                              backgroundColor: WidgetStateProperty.all(
+                                  Color.fromARGB(255, 0, 106, 244)),
+                              shape: WidgetStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                              ),
+                              minimumSize:
+                                  WidgetStateProperty.all(Size(259, 50)),
+                              maximumSize:
+                                  WidgetStateProperty.all(Size(259, 60)),
+                              padding: WidgetStateProperty.all(
+                                  EdgeInsets.symmetric(
+                                      vertical: 15, horizontal: 10)),
+                              elevation: WidgetStateProperty.all(0),
+                            ),
+                            child: Text(
+                              'Добавить',
+                              style: GoogleFonts.montserrat(
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w500),
+                            ),
                           ),
                         ],
                       ),
