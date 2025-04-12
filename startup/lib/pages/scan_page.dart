@@ -7,6 +7,7 @@ import 'package:startup/api/api.dart';
 import 'package:startup/components/draw_output_image.dart';
 import 'package:startup/models/product_model.dart';
 import 'package:startup/pages/receipt_page.dart';
+import 'package:startup/models/translation.dart';
 //import 'package:cross_file/cross_file.dart';
 
 class ScanPage extends StatefulWidget {
@@ -68,7 +69,7 @@ class _ScanPageState extends State<ScanPage> {
                 if (className == j['name']) quantity += 1;
               }
               final product = Product(
-                  name: className,
+                  name: translate(className),
                   price: double.parse(priceResponse) * quantity,
                   quantity: quantity);
               products.add(product);
@@ -103,6 +104,11 @@ class _ScanPageState extends State<ScanPage> {
 
   Future<void> _scanFood() async {
     _startCamera();
+  }
+
+  // перевод еды с бэка на русский
+  String translate(String key) {
+    return translations[key] ?? key;
   }
 
   @override
@@ -268,8 +274,8 @@ class _ScanPageState extends State<ScanPage> {
                                                                 .black), // Черная граница между столбцами
                                                       ),
                                                     ),
-                                                    child: Text(
-                                                        products[index].name),
+                                                    child: Text(translate(
+                                                        products[index].name)),
                                                   ),
                                                 ),
                                                 Expanded(
