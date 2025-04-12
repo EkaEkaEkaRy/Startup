@@ -11,7 +11,7 @@ class Apiservice {
   //final Dio _dio = Dio();
 
   //final backend_link = AppConfig.backendUrl;
-  final backend_link = 'http://127.0.0.1:8000/';
+  final backend_link = 'http://192.168.137.1:8000/';
 
   // получение всех пользователей
   Future<List> getItems(XFile image) async {

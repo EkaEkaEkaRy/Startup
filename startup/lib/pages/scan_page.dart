@@ -401,6 +401,7 @@ class _ScanPageState extends State<ScanPage> {
                           ),
                           ElevatedButton(
                             onPressed: () async {
+                              _stopCamera();
                               for (var i in products) {
                                 print(i.name +
                                     ' ' +
