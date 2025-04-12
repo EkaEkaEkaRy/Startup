@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:startup/models/product_model.dart';
-import 'package:provider/provider.dart';
+//import 'package:provider/provider.dart';
 import 'package:startup/models/receipt_provider.dart';
 import 'package:startup/pages/payment_papge.dart';
 import 'package:startup/models/translation.dart';
@@ -58,111 +58,228 @@ class RreceiptPageState extends State<ReceiptPage> {
                     Padding(
                       padding:
                           EdgeInsets.only(top: 36.0, left: 41.0, right: 41.0),
-                      child: SingleChildScrollView(
-                          scrollDirection: Axis.vertical,
-                          child: DataTable(
-                              border: TableBorder.all(
-                                  color: Color.fromARGB(255, 217, 217, 217),
-                                  width: 1),
-                              columns: [
-                                DataColumn(
-                                    label: Text('Название',
-                                        style: GoogleFonts.montserrat(
-                                            color: Colors.black,
-                                            fontSize: 20.0,
-                                            fontWeight: FontWeight.w500))),
-                                DataColumn(
-                                    label: Text('Кол-во',
-                                        style: GoogleFonts.montserrat(
-                                            color: Colors.black,
-                                            fontSize: 20.0,
-                                            fontWeight: FontWeight.w500))),
-                                DataColumn(
-                                    label: Text('Цена',
-                                        style: GoogleFonts.montserrat(
-                                            color: Colors.black,
-                                            fontSize: 20.0,
-                                            fontWeight: FontWeight.w500)))
-                              ],
-                              rows: products.map((product) {
-                                return DataRow(cells: [
-                                  DataCell(Text(product.name,
-                                      style: GoogleFonts.montserrat(
-                                          color: Colors.black,
-                                          fontSize: 18.0,
-                                          fontWeight: FontWeight.w400))),
-                                  DataCell(Text(product.quantity.toString(),
-                                      style: GoogleFonts.montserrat(
-                                          color: Colors.black,
-                                          fontSize: 18.0,
-                                          fontWeight: FontWeight.w400))),
-                                  DataCell(Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(product.price.toString(),
-                                          style: GoogleFonts.montserrat(
-                                              color: Colors.black,
-                                              fontSize: 18.0,
-                                              fontWeight: FontWeight.w400)),
-                                      SizedBox(
-                                        width: 40.0,
+                      child: Container(
+                          padding:
+                              EdgeInsets.all(0), // Удаление внешних отступов
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height * 0.45,
+                          child: Column(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                        color: Colors
+                                            .black), // Черная граница между шапкой и остальными строками
+                                  ),
+                                ),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 3,
+                                      child: Container(
+                                        padding: EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(
+                                                color: Colors
+                                                    .black), // Черная граница между столбцами
+                                          ),
+                                        ),
+                                        child: Text('Название',
+                                            style: GoogleFonts.montserrat(
+                                                color: Colors.black,
+                                                fontSize: 20.0,
+                                                fontWeight: FontWeight.w500)),
                                       ),
-                                      // кнопка удаления продукта из чека
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            receiptProvider
-                                                .removeProduct(product);
-                                            products = receiptProvider.products;
-                                          });
-                                        },
-                                        style: ButtonStyle(
-                                          backgroundColor:
-                                              WidgetStateProperty.all(
-                                                  Color.fromARGB(
-                                                      255, 217, 217, 217)),
-                                          shape: WidgetStateProperty.all<
-                                              RoundedRectangleBorder>(
-                                            RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
+                                    ),
+                                    Expanded(
+                                      flex: 1,
+                                      child: Container(
+                                        padding: EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(
+                                                color: Colors
+                                                    .black), // Черная граница между столбцами
+                                          ),
+                                        ),
+                                        child: Text('Количество',
+                                            style: GoogleFonts.montserrat(
+                                                color: Colors.black,
+                                                fontSize: 20.0,
+                                                fontWeight: FontWeight.w500)),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 1,
+                                      child: Container(
+                                        padding: EdgeInsets.all(8),
+                                        child: Text('Цена',
+                                            style: GoogleFonts.montserrat(
+                                                color: Colors.black,
+                                                fontSize: 20.0,
+                                                fontWeight: FontWeight.w500)),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 1,
+                                      child: Container(
+                                        padding: EdgeInsets.all(8),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: ListView.builder(
+                                  itemCount: products.length,
+                                  itemBuilder: (context, index) {
+                                    // Остальные строки таблицы
+                                    return Container(
+                                      decoration: BoxDecoration(
+                                        border: Border(
+                                          top: BorderSide(
+                                              color: Colors
+                                                  .grey), // Серая граница между строками
+                                        ),
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            flex: 3,
+                                            child: Container(
+                                              height: 55.0,
+                                              padding: EdgeInsets.all(8),
+                                              decoration: BoxDecoration(
+                                                border: Border(
+                                                  right: BorderSide(
+                                                      color: Colors
+                                                          .black), // Черная граница между столбцами
+                                                ),
+                                              ),
+                                              child: Text(products[index].name,
+                                                  style: GoogleFonts.montserrat(
+                                                      color: Colors.black,
+                                                      fontSize: 18.0,
+                                                      fontWeight:
+                                                          FontWeight.w500)),
                                             ),
                                           ),
-                                          minimumSize: WidgetStateProperty.all(
-                                              Size(130, 35)),
-                                          maximumSize: WidgetStateProperty.all(
-                                              Size(130, 62)),
-                                          padding: WidgetStateProperty.all(
-                                              EdgeInsets.symmetric(
-                                                  vertical: 13,
-                                                  horizontal: 10)),
-                                          elevation: WidgetStateProperty.all(0),
-                                        ),
-                                        child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                'Убрать',
-                                                style: GoogleFonts.montserrat(
-                                                    color: Colors.black,
-                                                    fontSize: 20.0,
-                                                    fontWeight:
-                                                        FontWeight.w400),
-                                              )
-                                            ]),
-                                      )
-                                    ],
-                                  )),
-                                ]);
-                              }).toList())),
+                                          Expanded(
+                                            flex: 1,
+                                            child: Container(
+                                              height: 55.0,
+                                              padding: EdgeInsets.all(8),
+                                              decoration: BoxDecoration(
+                                                border: Border(
+                                                  right: BorderSide(
+                                                      color: Colors
+                                                          .black), // Черная граница между столбцами
+                                                ),
+                                              ),
+                                              child: Text(
+                                                  products[index]
+                                                      .quantity
+                                                      .toString(),
+                                                  style: GoogleFonts.montserrat(
+                                                      color: Colors.black,
+                                                      fontSize: 18.0,
+                                                      fontWeight:
+                                                          FontWeight.w500)),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            flex: 1,
+                                            child: Container(
+                                              height: 55.0,
+                                              padding: EdgeInsets.all(8),
+                                              child: Text(
+                                                  products[index]
+                                                      .price
+                                                      .toString(),
+                                                  style: GoogleFonts.montserrat(
+                                                      color: Colors.black,
+                                                      fontSize: 18.0,
+                                                      fontWeight:
+                                                          FontWeight.w500)),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            flex: 1,
+                                            child: ElevatedButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  receiptProvider.removeProduct(
+                                                      products[index]);
+                                                  products =
+                                                      receiptProvider.products;
+                                                });
+                                              },
+                                              style: ButtonStyle(
+                                                backgroundColor:
+                                                    WidgetStateProperty.all(
+                                                        Color.fromARGB(255, 217,
+                                                            217, 217)),
+                                                shape: WidgetStateProperty.all<
+                                                    RoundedRectangleBorder>(
+                                                  RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15),
+                                                  ),
+                                                ),
+                                                minimumSize:
+                                                    WidgetStateProperty.all(
+                                                        Size(130, 35)),
+                                                maximumSize:
+                                                    WidgetStateProperty.all(
+                                                        Size(130, 60)),
+                                                padding:
+                                                    WidgetStateProperty.all(
+                                                        EdgeInsets.symmetric(
+                                                            vertical: 13,
+                                                            horizontal: 10)),
+                                                elevation:
+                                                    WidgetStateProperty.all(0),
+                                              ),
+                                              child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      'Убрать',
+                                                      style: GoogleFonts
+                                                          .montserrat(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 18.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400),
+                                                    )
+                                                  ]),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          )),
+                    ),
+                    Container(
+                      color: Colors.grey,
+                      height: 1,
+                      width: MediaQuery.of(context).size.width,
                     ),
                     Padding(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 70.0, vertical: 30.0),
+                            horizontal: 70.0, vertical: 20.0),
                         child: Column(
                           children: [
                             // вывод итоговой суммы
@@ -173,7 +290,7 @@ class RreceiptPageState extends State<ReceiptPage> {
                                   'Итого: ${receiptProvider.totalSum.toString()}',
                                   style: GoogleFonts.montserrat(
                                       color: Colors.black,
-                                      fontSize: 24.0,
+                                      fontSize: 20.0,
                                       fontWeight: FontWeight.w500),
                                 ),
                               ],
@@ -317,7 +434,7 @@ class RreceiptPageState extends State<ReceiptPage> {
                                           'Добавить',
                                           style: GoogleFonts.montserrat(
                                               color: Colors.black,
-                                              fontSize: 20.0,
+                                              fontSize: 18.0,
                                               fontWeight: FontWeight.w400),
                                         ),
                                       ]),
@@ -344,7 +461,7 @@ class RreceiptPageState extends State<ReceiptPage> {
                                     minimumSize:
                                         WidgetStateProperty.all(Size(259, 35)),
                                     maximumSize:
-                                        WidgetStateProperty.all(Size(259, 62)),
+                                        WidgetStateProperty.all(Size(259, 60)),
                                     padding: WidgetStateProperty.all(
                                         EdgeInsets.symmetric(
                                             vertical: 15, horizontal: 10)),

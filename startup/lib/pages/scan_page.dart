@@ -54,18 +54,18 @@ class _ScanPageState extends State<ScanPage> {
     if (_controller != null && _controller!.value.isInitialized) {
       products = [];
       final image = await _controller!.takePicture();
-      List json_image = await Apiservice().getItems(image);
-      XFile new_image;
-      if (json_image.isNotEmpty) {
-        new_image = await drawOutputImage(image, json_image);
+      List jsonImage = await Apiservice().getItems(image);
+      XFile newImage;
+      if (jsonImage.isNotEmpty) {
+        newImage = await drawOutputImage(image, jsonImage);
         products = [];
         try {
-          for (var i in json_image) {
+          for (var i in jsonImage) {
             final className = i['name'];
             if (!products.any((el) => el.name == className)) {
               final priceResponse = await Apiservice().getPrice(className);
               int quantity = 0;
-              for (var j in json_image) {
+              for (var j in jsonImage) {
                 if (className == j['name']) quantity += 1;
               }
               final product = Product(
@@ -79,10 +79,10 @@ class _ScanPageState extends State<ScanPage> {
           print(e);
         }
       } else {
-        new_image = image;
+        newImage = image;
       }
 
-      setState(() => _lastImage = new_image);
+      setState(() => _lastImage = newImage);
 
       /*
       final image = await _controller!.takePicture();
@@ -129,11 +129,10 @@ class _ScanPageState extends State<ScanPage> {
                       height: MediaQuery.of(context).size.height * 0.59,
                       //width: MediaQuery.of(context).size.width * 0.75,
                       decoration: BoxDecoration(color: Colors.grey),
-                      child: Expanded(
-                          child: _controller != null &&
-                                  _controller!.value.isInitialized
-                              ? CameraPreview(_controller!)
-                              : Center(child: Text('Камера недоступна'))),
+                      child: _controller != null &&
+                              _controller!.value.isInitialized
+                          ? CameraPreview(_controller!)
+                          : Center(child: Text('Камера недоступна')),
                     )),
                 ElevatedButton(
                   onPressed: _scanFood,
@@ -295,7 +294,7 @@ class _ScanPageState extends State<ScanPage> {
                                     ),
                                   ],
                                 )),
-                            Container(
+                            SizedBox(
                               height: MediaQuery.of(context).size.height * 0.1,
                               child: Column(
                                 children: [
@@ -382,13 +381,14 @@ class _ScanPageState extends State<ScanPage> {
                                   height:
                                       MediaQuery.of(context).size.height * 0.4,
                                   decoration: BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.circular(20.0)),
-                                  child: Expanded(
-                                      child: Align(
-                                          alignment: Alignment.centerRight,
-                                          child: Image.file(
-                                              File(_lastImage!.path)))),
+                                    borderRadius: BorderRadius.circular(20.0),
+                                  ),
+                                  child: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Image.file(
+                                      File(_lastImage!.path),
+                                    ),
+                                  ),
                                 )
                               : Container(
                                   width:
@@ -407,13 +407,7 @@ class _ScanPageState extends State<ScanPage> {
                           ),
                           ElevatedButton(
                             onPressed: () async {
-                              for (var i in products) {
-                                print(i.name +
-                                    ' ' +
-                                    i.price.toString() +
-                                    ' ' +
-                                    i.price.runtimeType.toString());
-                              }
+                              _stopCamera();
 
                               Navigator.push(
                                 context,

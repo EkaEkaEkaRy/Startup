@@ -53,8 +53,7 @@ Future<XFile> drawOutputImage(XFile inputFile, List trackJson) async {
     );
 
     // Рисование текста (название и вероятность)
-    drawText(
-        canvas, '${name} ${confidence.toStringAsFixed(2)}', Offset(x1, y1));
+    drawText(canvas, '$name ${confidence.toStringAsFixed(2)}', Offset(x1, y1));
 
     // Получение цены
     final price = await Apiservice().getPrice(name);

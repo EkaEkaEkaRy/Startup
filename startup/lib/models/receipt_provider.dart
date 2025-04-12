@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+//import 'package:provider/provider.dart';
 import 'package:startup/models/product_model.dart';
 
 class ReceiptProvider with ChangeNotifier {
@@ -28,9 +28,6 @@ class ReceiptProvider with ChangeNotifier {
     try {
       print('removeProduct fun called');
       _products.remove(product);
-      for (var i in products) {
-        print(i.name);
-      }
       notifyListeners();
     } catch (e) {
       print(e);
