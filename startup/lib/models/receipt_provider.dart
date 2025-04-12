@@ -15,8 +15,13 @@ class ReceiptProvider with ChangeNotifier {
   }
 
   void addProduct(Product product) {
-    _products.add(product);
-    notifyListeners();
+    try {
+      print('addProduct fun called');
+      _products.add(product);
+      notifyListeners();
+    } catch (e) {
+      print(e);
+    }
   }
 
   void removeProduct(Product product) {
