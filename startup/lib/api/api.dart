@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:camera/camera.dart';
 //import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+//import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:startup/api/env.dart';
 
 class Apiservice {
@@ -16,7 +16,6 @@ class Apiservice {
   Future<List> getItems(XFile image) async {
     try {
       // final response = await _dio.post('${backend_link}track', data: {image});
-      print(backend_link);
       var request =
           http.MultipartRequest('POST', Uri.parse('${backend_link}track'));
 
@@ -33,8 +32,8 @@ class Apiservice {
 
       if (response.statusCode == 200) {
         final responseBody = await response.stream.bytesToString();
-        final answer_json = jsonDecode(jsonDecode(responseBody));
-        return answer_json;
+        final answerJson = jsonDecode(jsonDecode(responseBody));
+        return answerJson;
       } else {
         throw Exception('Error ${response.statusCode}');
       }

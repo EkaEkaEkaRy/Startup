@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:startup/models/product_model.dart';
-import 'package:provider/provider.dart';
+//import 'package:provider/provider.dart';
 import 'package:startup/models/receipt_provider.dart';
 import 'package:startup/pages/payment_papge.dart';
 
@@ -200,8 +200,7 @@ class RreceiptPageState extends State<ReceiptPage> {
                                           ),
                                           Expanded(
                                             flex: 1,
-                                            child: Container(
-                                                child: ElevatedButton(
+                                            child: ElevatedButton(
                                               onPressed: () {
                                                 setState(() {
                                                   receiptProvider.removeProduct(
@@ -255,7 +254,7 @@ class RreceiptPageState extends State<ReceiptPage> {
                                                                       .w400),
                                                     )
                                                   ]),
-                                            )),
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -266,9 +265,14 @@ class RreceiptPageState extends State<ReceiptPage> {
                             ],
                           )),
                     ),
+                    Container(
+                      color: Colors.grey,
+                      height: 1,
+                      width: MediaQuery.of(context).size.width,
+                    ),
                     Padding(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 70.0, vertical: 30.0),
+                            horizontal: 70.0, vertical: 20.0),
                         child: Column(
                           children: [
                             // вывод итоговой суммы
