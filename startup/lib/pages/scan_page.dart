@@ -445,7 +445,7 @@ class _ScanPageState extends State<ScanPage> {
                                     width: 20,
                                   ),
                                   Image.asset(
-                                    'assets/icons/arrow_right.png',
+                                    'assets/icons/right_arrow.png',
                                     width: 30,
                                     height: 30,
                                     color: Colors.white,

@@ -589,15 +589,11 @@ class RreceiptPageState extends State<ReceiptPage> {
                                         SizedBox(
                                           width: 20,
                                         ),
-                                        Icon(
-                                          Icons.keyboard_arrow_right,
+                                        Image.asset(
+                                          'assets/icons/right_arrow.png',
+                                          width: 30,
+                                          height: 30,
                                           color: Colors.white,
-                                          size: 30,
-                                        ),
-                                        Icon(
-                                          Icons.keyboard_arrow_right,
-                                          color: Colors.white,
-                                          size: 30,
                                         ),
                                       ]),
                                 )
