@@ -66,7 +66,7 @@ class _ScanPageState extends State<ScanPage> {
               }
               final product = Product(
                   name: translate(className),
-                  price: double.parse(priceResponse) * quantity,
+                  price: double.parse(priceResponse),
                   quantity: quantity);
               products.add(product);
             }
@@ -444,15 +444,11 @@ class _ScanPageState extends State<ScanPage> {
                                   SizedBox(
                                     width: 20,
                                   ),
-                                  Icon(
-                                    Icons.keyboard_arrow_right,
+                                  Image.asset(
+                                    'assets/icons/arrow_right.png',
+                                    width: 30,
+                                    height: 30,
                                     color: Colors.white,
-                                    size: 30,
-                                  ),
-                                  Icon(
-                                    Icons.keyboard_arrow_right,
-                                    color: Colors.white,
-                                    size: 30,
                                   ),
                                 ]),
                           )
