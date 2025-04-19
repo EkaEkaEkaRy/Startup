@@ -33,7 +33,7 @@ class _ScanPageState extends State<ScanPage> {
       final cameras = await availableCameras();
       if (cameras.isNotEmpty) {
         _controller = CameraController(
-          cameras.first,
+          cameras.last,
           ResolutionPreset.medium,
           enableAudio: false,
         );
