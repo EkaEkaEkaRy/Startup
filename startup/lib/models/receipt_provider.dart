@@ -17,7 +17,19 @@ class ReceiptProvider with ChangeNotifier {
   void addProduct(Product product) {
     try {
       print('addProduct fun called');
-      _products.add(product);
+      var index = _products.indexWhere((value) => value.name == product.name);
+
+      if (index != -1) {
+        var existingProduct = _products[index];
+        _products[index] = Product(
+          name: existingProduct.name,
+          price: existingProduct.price,
+          quantity: existingProduct.quantity + product.quantity,
+        );
+      } else {
+        _products.add(product);
+      }
+
       for (var i in _products) {
         print(i.name);
       }
