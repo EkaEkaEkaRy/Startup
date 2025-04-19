@@ -393,8 +393,9 @@ class RreceiptPageState extends State<ReceiptPage> {
                                               height: 55.0,
                                               padding: EdgeInsets.all(8),
                                               child: Text(
-                                                  products[index]
-                                                      .price
+                                                  (products[index].price *
+                                                          products[index]
+                                                              .quantity)
                                                       .toString(),
                                                   style: GoogleFonts.montserrat(
                                                       color: Colors.black,
